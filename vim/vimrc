@@ -1,0 +1,109 @@
+"  Vundle stuff
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'git@github.com:fugalh/desert.vim.git'
+Plugin 'Valloric/YouCompleteMe'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+set runtimepath+=~/.vim/bundle/YouCompleteMe
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+set foldenable
+" Enable folding with the spacebar
+nnoremap <space> za
+vnoremap <space> zf
+
+"much of this from http://www.pixelbeat.org/settings/.vimrc
+set shiftwidth=4
+set tabstop=4
+set expandtab
+set autoindent
+set smartindent
+set list listchars=tab:\|_,trail:.,extends:>
+"flag problematic whitespace (trailing and spaces before tabs)
+"Note you get the same by doing let c_space_errors=1 but
+""this rule really applys to everything.
+highlight RedundantSpaces term=standout ctermbg=red guibg=red
+match RedundantSpaces /\s\+$\| \+\ze\t/ "\ze sets end of match so only spaces highlighted
+"use :set list! to toggle visible whitespace on/off
+
+au filetype make set noexpandtab
+au filetype gitcommit set spell
+"This is necessary to allow pasting from outside vim. It turns off auto stuff.
+"You can tell you are in paste mode when the ruler is not visible
+set pastetoggle=<F2>
+filetype on
+filetype plugin on
+filetype indent on
+set title
+set nowrap
+set smartcase
+"Show menu with possible tab completions
+set wildmenu
+"Ignore these files when completing names and in Explorer
+set wildignore=.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+" Indenting
+" """"""""""""""""""""""""""""""""""""""""""""""""
+"Default to autoindenting of C like languages
+"This is overridden per filetype below
+set noautoindent smartindent
+
+" Whitespace handling
+set softtabstop=4
+set expandtab
+set shiftwidth=4
+set shiftround
+set nojoinspaces
+
+"""""""""""""""""""""""""""""""""""""""""""""""
+" Background and colours
+""""""""""""""""""""""""""""""""""""""""""""""""
+set background=dark
+"set up colorscheme
+" colorscheme myscheme
+colorscheme desert
+set ruler
+
+"Make the completion menus readable
+highlight Pmenu ctermfg=0 ctermbg=4
+highlight PmenuSel ctermfg=0 ctermbg=7
+
+"The following should be done automatically for the default colour scheme
+"at least, but it is not in Vim 7.0.17.
+if &bg == "dark"
+  highlight MatchParen ctermbg=darkblue guibg=blue
+  endif
+
+" Search highlighting
+set hlsearch
+set incsearch
+"http://vim.wikia.com/wiki/Remove_unwanted_spaces
+" strip whitespace at end of line on write file
+"autocmd BufWritePre * :%s/\s\+$//e
+
+"set cscopequickfix=s-,f-,c-,d-,i-,t
+
+nmap \fR :Mirror<CR>
+command! -bar -range Mirror <line1>,<line2>call setline('.', join(reverse(split(getline('.'), '\zs')), ''))
+" \fr: reverse the order of lines (vertical mirror)
+nmap \fr :set lz<CR>o<Esc>mz'aO<Esc>ma:'a+1,'z-1g/^/m 'a<CR>'addma'zdd:set nolz<CR>
+
+set termguicolors                 " show me all the colors please
+set number
+set relativenumber
